@@ -10,11 +10,6 @@ export const initMongoConnection = async () => {
     const url = process.env.MONGODB_URL;
     const db = process.env.MONGODB_DB;
 
-    console.log(user);
-    console.log(pwd);
-    console.log(url);
-    console.log(db);
-
     await mongoose.connect(
       `mongodb+srv://${user}:${pwd}@${url}/?retryWrites=true&w=majority&appName=${db}`,
     );
