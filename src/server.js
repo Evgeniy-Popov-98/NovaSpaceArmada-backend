@@ -1,5 +1,6 @@
 import express from 'express';
 
+import { env } from './utils/env.js';
 import { ENV_VARS } from './constants/constants.js';
 
 export const setupServer = () => {
