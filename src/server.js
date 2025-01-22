@@ -1,36 +1,30 @@
 import express from 'express';
+import pino from 'pino-http';
+import cors from 'cors';
+
+import shipsRouter from './routers/ships.js';
 
 import { env } from './utils/env.js';
 import { ENV_VARS } from './constants/constants.js';
 
-import { getAllShips, getShipById } from './services/ships.js';
-
 export const setupServer = () => {
   const app = express();
 
-  app.get('/ships', async (req, res) => {
-    const ships = await getAllShips();
+  app.use(express.json());
+  app.use(cors());
 
-    console.log(ships);
+  app.use(pino({ transport: { target: 'pino-pretty' } }));
 
-    res.status(200).json({
-      data: ships,
-    });
+  app.use(shipsRouter);
+
+  app.use('*', (req, res, next) => {
+    res.status(404).json({ message: 'Not found!' });
   });
 
-  app.get('/ships/:shipId', async (req, res) => {
-    const { shipId } = req.params;
-    const ship = await getShipById(shipId);
-
-    if (!ship) {
-      res.status(404).json({
-        message: 'Ship not found!',
-      });
-      return;
-    }
-
-    res.status(200).json({
-      data: ship,
+  app.use((err, req, res, next) => {
+    res.status(500).json({
+      message: 'Something went wrong!',
+      error: err.message,
     });
   });
 
