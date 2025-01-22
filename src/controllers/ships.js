@@ -1,3 +1,4 @@
+import createHttpError from 'http-errors';
 import { getAllShips, getShipById } from '../services/ships.js';
 
 export const getAllShipsController = async (req, res, next) => {
@@ -18,10 +19,7 @@ export const getShipByIdController = async (req, res, next) => {
   const { shipId } = req.params;
   const ship = await getShipById(shipId);
 
-  if (!ship) {
-    next(new Error('Ship not found!'));
-    return;
-  }
+  if (!ship) throw createHttpError(404, 'Ship not found!');
 
   res.json({
     status: 200,

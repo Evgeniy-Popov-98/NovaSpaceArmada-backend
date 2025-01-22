@@ -4,7 +4,7 @@ import {
   getAllShipsController,
   getShipByIdController,
 } from '../controllers/ships.js';
-import { ctrlWrapper } from '../urils/ctrlWrapper.js';
+import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
 const router = Router();
 

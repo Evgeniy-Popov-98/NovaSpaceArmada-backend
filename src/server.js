@@ -6,6 +6,8 @@ import shipsRouter from './routers/ships.js';
 
 import { env } from './utils/env.js';
 import { ENV_VARS } from './constants/constants.js';
+import { notFoundHandler } from './middlewares/notFaoundHandler.js';
+import { errorHandeler } from './middlewares/errorHandler.js';
 
 export const setupServer = () => {
   const app = express();
@@ -17,16 +19,9 @@ export const setupServer = () => {
 
   app.use(shipsRouter);
 
-  app.use('*', (req, res, next) => {
-    res.status(404).json({ message: 'Not found!' });
-  });
+  app.use('*', notFoundHandler);
 
-  app.use((err, req, res, next) => {
-    res.status(500).json({
-      message: 'Something went wrong!',
-      error: err.message,
-    });
-  });
+  app.use(errorHandeler);
 
   const PORT = env(ENV_VARS.PORT, 3000);
   app.listen(PORT, () => {
