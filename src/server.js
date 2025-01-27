@@ -3,6 +3,7 @@ import pino from 'pino-http';
 import cors from 'cors';
 
 import shipsRouter from './routers/ships.js';
+import admiralsRouter from './routers/admirals.js';
 
 import { env } from './utils/env.js';
 import { ENV_VARS } from './constants/constants.js';
@@ -18,6 +19,8 @@ export const setupServer = () => {
   app.use(pino({ transport: { target: 'pino-pretty' } }));
 
   app.use(shipsRouter);
+
+  app.use(admiralsRouter);
 
   app.use('*', notFoundHandler);
 
