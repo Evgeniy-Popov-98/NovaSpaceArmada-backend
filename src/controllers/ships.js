@@ -23,7 +23,7 @@ export const getShipByIdController = async (req, res, next) => {
 
   res.json({
     status: 200,
-    message: `Successfully found student with id ${ship}!`,
+    message: `Successfully found ship with id ${ship}!`,
     data: ship,
   });
 };
